@@ -18,7 +18,11 @@ module EventMachine
         raise HandshakeError, "Empty HTTP header" unless lines.size > 0
 
         # extract request path
-        first_line = lines.shift.match(PATH)
+        first_line = nil
+        if lines.count > 0 
+          first_line = lines.shift.match(PATH)
+        end
+
         raise HandshakeError, "Invalid HTTP header" unless first_line
         request['method'] = first_line[1].strip
         request['path'] = first_line[2].strip
